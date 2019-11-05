@@ -197,4 +197,20 @@ defmodule TimesheetsSpa.Users do
   def change_worker(%Worker{} = worker) do
     Worker.changeset(worker, %{})
   end
+
+  def authenticate(email, pass, user_type) do
+    if user_type == "worker" do
+      user = Repo.get_by(Worker, email: email)
+      case Argon2.check_pass(user, pass) do
+        {:ok, user} -> user
+        _ -> nil
+      end
+    else
+      user = Repo.get_by(Manager, email: email)
+      case Argon2.check_pass(user, pass) do
+        {:ok, user} -> user
+        _ -> nil
+      end
+    end
+  end
 end

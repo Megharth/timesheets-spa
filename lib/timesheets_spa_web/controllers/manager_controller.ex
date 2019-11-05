@@ -1,6 +1,8 @@
 defmodule TimesheetsSpaWeb.ManagerController do
   use TimesheetsSpaWeb, :controller
 
+  plug TimesheetsSpaWeb.Plugs.RequireAuth when action in [:show]
+
   alias TimesheetsSpa.Users
   alias TimesheetsSpa.Users.Manager
 

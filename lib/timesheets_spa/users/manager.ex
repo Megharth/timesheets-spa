@@ -14,6 +14,12 @@ defmodule TimesheetsSpa.Users.Manager do
   def changeset(manager, attrs) do
     manager
     |> cast(attrs, [:email, :name, :password_hash])
+    |> hash_password()
     |> validate_required([:email, :name, :password_hash])
+  end
+
+  def hash_password(cset) do
+    pw = get_change(cset, :password)
+    change(cset, Argon2.add_hash(pw))
   end
 end

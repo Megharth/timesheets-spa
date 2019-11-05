@@ -1,6 +1,8 @@
 defmodule TimesheetsSpaWeb.JobController do
   use TimesheetsSpaWeb, :controller
 
+  plug TimesheetsSpaWeb.Plugs.RequireAuth when action in [:show, :create, :delete]
+
   alias TimesheetsSpa.Jobs
   alias TimesheetsSpa.Jobs.Job
 

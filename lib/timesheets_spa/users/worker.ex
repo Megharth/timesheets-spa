@@ -16,7 +16,13 @@ defmodule TimesheetsSpa.Users.Worker do
   @doc false
   def changeset(worker, attrs) do
     worker
-    |> cast(attrs, [:email, :name, :pay, :password_hash])
-    |> validate_required([:email, :name, :pay, :password_hash])
+    |> cast(attrs, [:email, :name, :pay, :password_hash, :manager_id])
+    |> hash_password()
+    |> validate_required([:email, :name, :pay, :password_hash, :manager_id])
+  end
+
+  def hash_password(cset) do
+    pw = get_change(cset, :password)
+    change(cset, Argon2.add_hash(pw))
   end
 end
