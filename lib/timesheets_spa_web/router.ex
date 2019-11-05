@@ -9,8 +9,20 @@ defmodule TimesheetsSpaWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
+  pipeline :ajax do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
+  scope "/ajax", TimesheetsSpaWeb do
+    pipe_through :ajax
+
+    resources "/managers", ManagerController
+    resources "/workers", WorkerController
+    resources "/jobs", JobController
+
   end
 
   scope "/", TimesheetsSpaWeb do
