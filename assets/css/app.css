@@ -1,0 +1,14 @@
+/* This file is for your main application css. */
+
+.navbar {
+    font-size: 14px;
+}
+
+.navbar a {
+    color: white;
+    font-weight: bolder;
+}
+
+.navbar a:hover {
+    color: rgb(255, 178, 53);
+}
