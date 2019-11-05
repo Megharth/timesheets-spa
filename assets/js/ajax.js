@@ -1,3 +1,5 @@
+import store from './store'
+
 export function post(path, body) {
     return fetch('/ajax' + path, {
         method: 'post',
@@ -26,4 +28,25 @@ export function get(path) {
 export function getManager(id) {
     // console.log(id)
     get('/managers/' + id).then(resp => console.log(resp))
+}
+
+export function submit_login(form) {
+  let state = store.getState()
+  let data = state.forms.login
+
+  post('/sessions', data).then(resp => {
+    if(resp.token) {
+      localStorage.setItem('session', JSON.stringify(resp))
+      store.dispatch({
+        type: 'LOG_IN',
+        data: resp
+      })
+      form.redirect('/')
+    } else {
+      store.dispatch({
+        type: 'CHANGE_LOGIN',
+        data: {errors: JSON.stringify(resp.errors)},
+      });
+    }
+  })
 }

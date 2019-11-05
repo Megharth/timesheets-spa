@@ -1,24 +1,34 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import {BrowserRouter as Router, Switch, Route, NavLink, Link} from 'react-router-dom'
+import { Provider, connect } from 'react-redux';
+
+//Components and function
 import Navigation from './components/navbar'
 import {getManager} from './ajax'
+import Login from './components/login'
+
+import store from './store'
 
 export default function init(root) {
-    ReactDom.render(<Index />, root)
+    let tree = (
+        <Provider store={store}>
+            <Index />
+        </Provider>
+    )
+    ReactDom.render(tree, root)
 }
 
 function Index(props) {
     return (
         <Router>
             <Navigation />
-            <button onClick={() => getManager(1)}>Click me</button>
             <Switch>
                 <Route exact path="/">
-                    <h1>Home</h1>
+                    <Login />
                 </Route>
                 <Route exact path="/signup">
-                    <h1>Signup</h1>
+                    Singup
                 </Route>
             </Switch>
         </Router>
