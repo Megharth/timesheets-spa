@@ -14,11 +14,20 @@ defmodule TimesheetsSpaWeb.WorkerController do
   end
 
   def create(conn, %{"worker" => worker_params}) do
-    with {:ok, %Worker{} = worker} <- Users.create_worker(worker_params) do
+    userExists = Users.get_user_by_email(worker_params["email"])
+    if !userExists do
+      with {:ok, %Worker{} = worker} <- Users.create_worker(worker_params) do
+        manager = Users.get_manager!(worker_params["manager_id"])
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.worker_path(conn, :show, worker))
+        |> render("show.json", worker: Map.put(worker, :manager, manager))
+      end
+    else
+      resp = %{errors: "User with same email already exists"}
       conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.worker_path(conn, :show, worker))
-      |> render("show.json", worker: worker)
+      |> put_resp_header("content-type", "application/json; charset=UTF-8")
+      |> send_resp(:unauthorized, Jason.encode!(resp))
     end
   end
 

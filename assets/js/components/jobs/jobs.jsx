@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import { get_jobs } from '../../ajax'
 import store from '../../store'
 
@@ -22,6 +23,7 @@ const jobList = connect(({ jobs }) => ({ jobs }))(({ jobs }) => {
     return (
         <div className="container">
             <h1>Existing Jobs</h1>
+            <NavLink className="btn btn-primary ml-auto d-block add-btn" to="/new_job">+ New Job</NavLink>
             <table className="table">
                 <thead>
                     <tr>

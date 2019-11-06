@@ -146,6 +146,7 @@ defmodule TimesheetsSpa.Users do
 
   """
   def create_worker(attrs \\ %{}) do
+    IO.inspect attrs
     %Worker{}
     |> Worker.changeset(attrs)
     |> Repo.insert()
@@ -218,5 +219,17 @@ defmodule TimesheetsSpa.Users do
     Repo.one! from m in Manager,
       where: m.id == ^id,
       preload: [:workers]
+  end
+
+  def get_user_by_email(email) do
+    workers = Repo.all from w in Worker,
+                where: w.email == ^email
+    managers = Repo.all from m in Manager,
+                where: m.email == ^email
+    if length(workers) > 0 or length(managers) > 0 do
+      true
+    else
+      false
+    end
   end
 end

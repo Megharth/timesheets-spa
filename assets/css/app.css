@@ -12,3 +12,8 @@
 .navbar a:hover {
     color: rgb(255, 178, 53);
 }
+
+.add-btn {
+    width: 300px;
+    margin: 10px;
+}

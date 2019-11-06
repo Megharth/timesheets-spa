@@ -9,7 +9,8 @@ import {getManager} from './ajax'
 import Login from './components/login'
 import ManagerDashboard from './components/manager/dashboard'
 import JobsDashboard from './components/jobs/jobs'
-
+import NewJob from './components/jobs/new'
+import NewWorker from './components/worker/new'
 
 import store from './store'
 
@@ -35,8 +36,14 @@ function Index(props) {
                 <PrivateRoute path="/manager/dashboard">
                     <ManagerDashboard />
                 </PrivateRoute>
-                <PrivateRoute path="/jobs">
+                <PrivateRoute path="/jobs/">
                     <JobsDashboard />
+                </PrivateRoute>
+                <PrivateRoute path="/new_job">
+                    <NewJob />
+                </PrivateRoute>
+                <PrivateRoute path="/new_worker">
+                    <NewWorker />
                 </PrivateRoute>
             </Switch>
         </Router>

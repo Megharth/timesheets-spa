@@ -2,7 +2,6 @@ defmodule TimesheetsSpaWeb.JobController do
   use TimesheetsSpaWeb, :controller
 
   plug TimesheetsSpaWeb.Plugs.RequireAuth when action in [:show, :create, :delete]
-
   alias TimesheetsSpa.Jobs
   alias TimesheetsSpa.Jobs.Job
 
@@ -14,11 +13,11 @@ defmodule TimesheetsSpaWeb.JobController do
   end
 
   def create(conn, %{"job" => job_params}) do
+    manager = TimesheetsSpa.Users.get_manager!(job_params["manager_id"])
     with {:ok, %Job{} = job} <- Jobs.create_job(job_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.job_path(conn, :show, job))
-      |> render("show.json", job: job)
+      |> render("show.json", job: Map.put(job, :manager, manager))
     end
   end
 
