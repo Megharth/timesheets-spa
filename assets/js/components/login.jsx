@@ -3,6 +3,7 @@ import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
 import { Form, Container, Button, Alert } from 'react-bootstrap'
 import { Redirect } from 'react-router'
+import store from '../store'
 
 import { submit_login } from '../ajax'
 
@@ -26,6 +27,12 @@ class Login extends React.Component {
     }
 
     render() {
+        //TODO: Set the validation for worker/manager
+
+        if(store.getState().session) {
+            return <Redirect to="/welcome" />
+        }
+
         if(this.state.redirect)
             return <Redirect to={this.state.redirect} />
 
@@ -49,6 +56,13 @@ class Login extends React.Component {
                     <Form.Control type="password" 
                         onChange={(ev) => {this.changed({password: ev.target.value})}}
                     />
+                </Form.Group>
+                <Form.Group controlId="type">
+                    <Form.Label>User Type</Form.Label>
+                    <Form.Check type="radio" label="Worker" name="user_type" 
+                        value="worker" onChange={ev => this.changed({type: ev.target.value})} checked={true} />
+                    <Form.Check type="radio" label="Manager" name="user_type" 
+                        value="manager" onChange={ev => this.changed({type: ev.target.value})} />
                 </Form.Group>
                 <Button variant="primary" onClick={() => {submit_login(this)}}>Login</Button>
             </Container>

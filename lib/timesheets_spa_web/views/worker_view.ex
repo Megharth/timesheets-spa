@@ -15,6 +15,6 @@ defmodule TimesheetsSpaWeb.WorkerView do
       email: worker.email,
       name: worker.name,
       pay: worker.pay,
-      password_hash: worker.password_hash}
+    }
   end
 end

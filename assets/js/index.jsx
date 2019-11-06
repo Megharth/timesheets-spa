@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import {BrowserRouter as Router, Switch, Route, NavLink, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Redirect, Switch, Route, NavLink, Link} from 'react-router-dom'
 import { Provider, connect } from 'react-redux';
 
 //Components and function
 import Navigation from './components/navbar'
 import {getManager} from './ajax'
 import Login from './components/login'
+import ManagerDashboard from './components/manager/dashboard'
 
 import store from './store'
 
@@ -22,15 +23,32 @@ export default function init(root) {
 function Index(props) {
     return (
         <Router>
-            <Navigation />
+            <Navigation/>
             <Switch>
-                <Route exact path="/">
-                    <Login />
+                <Route exact path="/" component={Login}>
                 </Route>
                 <Route exact path="/signup">
                     Singup
                 </Route>
+                <PrivateRoute path="/manager/dashboard">
+                    <ManagerDashboard />
+                </PrivateRoute>
             </Switch>
         </Router>
+    )
+}
+
+
+function PrivateRoute({children, ...rest}) {
+    return(
+        <Route
+            {...rest}
+            render={({ location }) => store.getState().session ? (children) : <Redirect to={
+                {
+                    pathname: '/',
+                    state: {from:location}
+                }
+            } />}
+        />
     )
 }

@@ -1,6 +1,7 @@
 defmodule TimesheetsSpaWeb.ManagerView do
   use TimesheetsSpaWeb, :view
   alias TimesheetsSpaWeb.ManagerView
+  alias TimesheetsSpaWeb.WorkerView
 
   def render("index.json", %{managers: managers}) do
     %{data: render_many(managers, ManagerView, "manager.json")}
@@ -14,6 +15,9 @@ defmodule TimesheetsSpaWeb.ManagerView do
     %{id: manager.id,
       email: manager.email,
       name: manager.name,
-      password_hash: manager.password_hash}
+      workers: render_many(manager.workers, WorkerView, "worker.json")
+    }
   end
+
+
 end

@@ -9,7 +9,7 @@ import deepFreeze from 'deep-freeze-strict'
          job: {...},
          createWorker: {...},
      },
-     user: {}
+     workers: Map.new(),
  * }
 */
 
@@ -29,10 +29,24 @@ function forms(st0, action) {
     return reducer(st0, action)
 }
 
+function workers(st0 = new Map(), action) {
+    switch(action.type) {
+        case 'GET_LIST':
+            let st1 = new Map(st0)
+            action.data.workers.forEach((worker) => {
+                st1.set(worker.id, worker)
+            })
+            return st1
+        default:
+            return st0
+    }
+}
+
 let session0 = localStorage.getItem('session')
 if(session0) {
     session0 = JSON.parse(session0)
 }
+
 function session(st0 = session0, action) {
     switch(action.type) {
         case 'LOG_IN':
@@ -44,10 +58,12 @@ function session(st0 = session0, action) {
     }
 }
 
+
 function root_reducer(st0, action) {
     let reducer = combineReducers({
         forms,
-        session
+        session,
+        workers
     })
     return deepFreeze(reducer(st0, action))
 }

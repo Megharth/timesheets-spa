@@ -7,6 +7,7 @@ defmodule TimesheetsSpa.Users.Manager do
     field :name, :string
     field :password_hash, :string
 
+    has_many :workers, TimesheetsSpa.Users.Worker
     timestamps()
   end
 

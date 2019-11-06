@@ -213,4 +213,10 @@ defmodule TimesheetsSpa.Users do
       end
     end
   end
+
+  def get_manager_with_workers(id) do
+    Repo.one! from m in Manager,
+      where: m.id == ^id,
+      preload: [:workers]
+  end
 end
