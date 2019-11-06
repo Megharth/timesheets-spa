@@ -10,6 +10,7 @@ import deepFreeze from 'deep-freeze-strict'
          createWorker: {...},
      },
      workers: Map.new(),
+     jobs: Map.new()
  * }
 */
 
@@ -31,7 +32,7 @@ function forms(st0, action) {
 
 function workers(st0 = new Map(), action) {
     switch(action.type) {
-        case 'GET_LIST':
+        case 'GET_USER_LIST':
             let st1 = new Map(st0)
             action.data.workers.forEach((worker) => {
                 st1.set(worker.id, worker)
@@ -42,6 +43,19 @@ function workers(st0 = new Map(), action) {
     }
 }
 
+function jobs(st0 = new Map(), action) {
+    switch(action.type) {
+        case 'GET_JOBS':
+            let st1 = new Map(st0)
+            console.log(action.data)
+            action.data.forEach((job) => {
+                st1.set(job.id, job)
+            })
+            return st1
+        default:
+            return st0
+    }
+}
 let session0 = localStorage.getItem('session')
 if(session0) {
     session0 = JSON.parse(session0)
@@ -63,7 +77,8 @@ function root_reducer(st0, action) {
     let reducer = combineReducers({
         forms,
         session,
-        workers
+        workers,
+        jobs
     })
     return deepFreeze(reducer(st0, action))
 }

@@ -48,7 +48,7 @@ export function submit_login(form) {
         type: 'LOG_IN',
         data: resp
       })
-      form.redirect('/welcome')
+      form.redirect('/' + resp.user_type + '/dashboard')
     } else {
       store.dispatch({
         type: 'CHANGE_LOGIN',
@@ -62,7 +62,20 @@ export function get_workers(id) {
   get('/managers/'+id).then(resp => {
     if(resp.data) {
       store.dispatch({
-        type: 'GET_LIST',
+        type: 'GET_USER_LIST',
+        data: resp.data
+      })
+    } else {
+      console.log(resp.errors)
+    }
+  })
+}
+
+export function get_jobs() {
+  get('/jobs').then(resp => {
+    if(resp.data) {
+      store.dispatch({
+        type: 'GET_JOBS',
         data: resp.data
       })
     } else {

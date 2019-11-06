@@ -27,10 +27,9 @@ class Login extends React.Component {
     }
 
     render() {
-        //TODO: Set the validation for worker/manager
 
         if(store.getState().session) {
-            return <Redirect to="/welcome" />
+            return <Redirect to={"/" + store.getState().session.user_type + '/dashboard'} />
         }
 
         if(this.state.redirect)

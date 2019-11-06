@@ -19,5 +19,12 @@ defmodule TimesheetsSpaWeb.ManagerView do
     }
   end
 
+  def render("manager_job.json", %{manager: manager}) do
+    %{
+      id: manager.id,
+      email: manager.email,
+      name: manager.name
+    }
+  end
 
 end

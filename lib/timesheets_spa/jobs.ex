@@ -19,6 +19,7 @@ defmodule TimesheetsSpa.Jobs do
   """
   def list_jobs do
     Repo.all(Job)
+    |> Repo.preload([:manager])
   end
 
   @doc """

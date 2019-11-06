@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
 import { get_workers } from '../../ajax'
+import { Redirect } from 'react-router'
 import store from '../../store'
 
 const workerList = connect(({ workers }) => ({ workers }))(({ workers }) => {
@@ -11,7 +12,7 @@ const workerList = connect(({ workers }) => ({ workers }))(({ workers }) => {
 
     let renderWorkers = Array.from(workers, ([key, worker]) => {
         return (
-            <tr>
+            <tr key={key}>
                 <td>{worker.name}</td>
                 <td>{worker.email}</td>
                 <td>${worker.pay}/hr</td>
@@ -21,13 +22,12 @@ const workerList = connect(({ workers }) => ({ workers }))(({ workers }) => {
         )
     })
 
-    console.log(renderWorkers)
-    
     return (
-        <div class="container">
+        <div className="container">
             <h1>Dashboard</h1>
+            <h5>Name: {store.getState().session.user_name}</h5>
             <h5>Workers under you</h5>
-            <table class="table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Name</th>
