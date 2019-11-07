@@ -1,0 +1,16 @@
+[Unit]
+Description=Timesheets app with SPA features
+
+[Service]
+Type=simple
+User=timesheets-spa
+Group=timesheets-spa
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=5460"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/timesheets-spa/timesheets-spa
+ExecStart=/bin/bash /home/timesheets-spa/timesheets-spa/start.sh
+
+[Install]
+WantedBy=multi-user.target
