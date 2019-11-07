@@ -1,5 +1,7 @@
 .elixir_ls
 
+prod-env.sh
+
 # The directory Mix will write compiled artifacts to.
 /_build/
 
