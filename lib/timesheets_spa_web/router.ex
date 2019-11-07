@@ -19,10 +19,12 @@ defmodule TimesheetsSpaWeb.Router do
   scope "/ajax", TimesheetsSpaWeb do
     pipe_through :ajax
 
-    resources "/managers", ManagerController
-    resources "/workers", WorkerController
-    resources "/jobs", JobController
+    resources "/managers", ManagerController, only: [:create, :show]
+    resources "/workers", WorkerController, only: [:create, :show, :delete]
+    resources "/jobs", JobController, only: [:create, :show, :index]
     resources "/sessions", SessionController, only: [:create], singleton: true
+    resources "/timesheets", TimesheetController, only: [:create, :show]
+    resources "/tasks", TaskController, only: [:create, :show, :delete]
 
   end
 

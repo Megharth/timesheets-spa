@@ -9,7 +9,7 @@ defmodule TimesheetsSpa.Users.Worker do
     field :pay, :float
 
     belongs_to :manager, TimesheetsSpa.Users.Manager
-
+    has_many :timesheets, TimesheetsSpa.Timesheets.Timesheet
     timestamps()
   end
 

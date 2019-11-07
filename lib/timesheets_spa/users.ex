@@ -131,7 +131,10 @@ defmodule TimesheetsSpa.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_worker!(id), do: Repo.get!(Worker, id)
+  def get_worker!(id) do
+    Repo.get!(Worker, id)
+    |> Repo.preload([:timesheets])
+  end
 
   @doc """
   Creates a worker.
@@ -146,7 +149,6 @@ defmodule TimesheetsSpa.Users do
 
   """
   def create_worker(attrs \\ %{}) do
-    IO.inspect attrs
     %Worker{}
     |> Worker.changeset(attrs)
     |> Repo.insert()

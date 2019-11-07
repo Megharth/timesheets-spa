@@ -25,6 +25,7 @@ let Session = connect(({ session }) => ({ session }))(({ session, dispatch }) =>
         dispatch({
             type: 'LOG_OUT'
         })
+        window.location.replace("/")
     }
 
     if(session) {

@@ -41,11 +41,37 @@ function new_worker(st0 = {name: "", email: "", pay: "", password_hash: "", mana
     }
 }
 
+function new_task(st0 = {job_code: "", hours: 0, errors: null, timesheet_id: null}, action) {
+    switch(action.type) {
+        case 'CHANGE_NEW_TASK':
+            return Object.assign({}, st0, action.data)
+        case 'CLEAR_TASK':
+            return {job_code: "", hours: 0, errors: null, timesheet_id: null}
+        case 'TASK_DATE_CHANGED':
+            return Object.assign({}, st0, action.data)
+        default:
+            return st0
+    }
+}
+
+function new_timesheet(st0 = {date: "", approved: false, errors: null, id: null, worker_id: null}, action) {
+    switch(action.type) {
+        case 'CHANGE_NEW_TIMESHEET':
+            return Object.assign({}, st0, action.data)
+        case 'CLEAR_TIMESHEET':
+            return {date: "", approved: false, errors: null, id: null}
+        default:
+            return st0
+    }
+} 
+
 function forms(st0, action) {
     let reducer = combineReducers({
         login,
         new_job,
-        new_worker
+        new_worker,
+        new_task,
+        new_timesheet
     })
     return reducer(st0, action)
 }
@@ -87,6 +113,36 @@ function jobs(st0 = new Map(), action) {
             return st0
     }
 }
+
+function tasks(st0 = new Map(), action) {
+    switch(action.type) {
+        case 'ADD_TASK':
+            let st1 = new Map(st0)
+            st1.set(action.data.job_code, action.data)
+            return st1
+        case "CLEAR_TASKS":
+            return new Map()
+        default:
+            return st0
+    }
+}
+
+function timesheets(st0 = new Map(), action) {
+    switch(action.type) {
+        case 'GET_TIMESHEETS':
+            let st1 = new Map(st0)
+            action.data.forEach((timesheet) => {
+                st1.set(timesheet.id, timesheet)
+            })
+            return st1
+        case 'SHOW_TIMESHEET':
+            let st2 = action.data
+            return st2  
+        default:
+            return st0
+    }
+}
+
 let session0 = localStorage.getItem('session')
 if(session0) {
     session0 = JSON.parse(session0)
@@ -109,7 +165,9 @@ function root_reducer(st0, action) {
         forms,
         session,
         workers,
-        jobs
+        jobs,
+        tasks,
+        timesheets
     })
     return deepFreeze(reducer(st0, action))
 }

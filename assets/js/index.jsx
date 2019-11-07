@@ -7,11 +7,17 @@ import { Provider, connect } from 'react-redux';
 import Navigation from './components/navbar'
 import {getManager} from './ajax'
 import Login from './components/login'
+import PrivateRoute from './privateRoute'
 import ManagerDashboard from './components/manager/dashboard'
+
 import JobsDashboard from './components/jobs/jobs'
 import NewJob from './components/jobs/new'
-import NewWorker from './components/worker/new'
 
+import NewWorker from './components/worker/new'
+import WorkerDashboard from './components/worker/dashboard'
+
+import NewTimesheet from './components/timesheet/new'
+import ShowTimesheet from './components/timesheet/show'
 import store from './store'
 
 export default function init(root) {
@@ -36,6 +42,9 @@ function Index(props) {
                 <PrivateRoute path="/manager/dashboard">
                     <ManagerDashboard />
                 </PrivateRoute>
+                <PrivateRoute path="/worker/dashboard">
+                    <WorkerDashboard />
+                </PrivateRoute>
                 <PrivateRoute path="/jobs/">
                     <JobsDashboard />
                 </PrivateRoute>
@@ -45,22 +54,14 @@ function Index(props) {
                 <PrivateRoute path="/new_worker">
                     <NewWorker />
                 </PrivateRoute>
+                <PrivateRoute path="/new_timesheet">
+                    <NewTimesheet />
+                </PrivateRoute>
+                <Route path="/show_timesheet/:id" component={ShowTimesheet}>
+                </Route>
             </Switch>
         </Router>
     )
 }
 
 
-function PrivateRoute({children, ...rest}) {
-    return(
-        <Route
-            {...rest}
-            render={({ location }) => store.getState().session ? (children) : <Redirect to={
-                {
-                    pathname: '/',
-                    state: {from:location}
-                }
-            } />}
-        />
-    )
-}

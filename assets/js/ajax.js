@@ -91,7 +91,6 @@ export function get_jobs() {
 export function add_job(form) {
   let state = store.getState()
   let data = state.forms.new_job
-  console.log(data)
   post('/jobs', {job: data}).then(resp => {
     if(resp.data) {
       store.dispatch({
@@ -111,7 +110,6 @@ export function add_job(form) {
 export function add_worker(form) {
   let state = store.getState()
   let data = state.forms.new_worker
-  console.log(data)
   post('/workers', {worker: data}).then(resp => {
     if(resp.data) {
       store.dispatch({
@@ -133,6 +131,80 @@ export function delete_worker(id) {
     store.dispatch({
       type: 'DELETE_WORKER',
       data: id
+    })
+  })
+}
+
+export function add_tasks(form) {
+  let state = store.getState()
+  let data = state.tasks
+  console.log(data)
+  let tasks = Array.from(data, ([key, task]) => {
+    return task
+  })
+  let add_task
+  tasks.forEach((task) => {
+    add_task = post('/tasks', {task})
+  })
+
+  add_task.then(resp => {
+    store.dispatch({
+      type: 'GET_TIMESHEETS',
+      data: [state.forms.new_timesheet]
+    })
+    store.dispatch({
+      type: 'CLEAR_TIMESHEET',
+      data: null
+    })
+    store.dispatch({
+      type: 'CLEAR_TASK',
+      data: null
+    })
+    store.dispatch({
+      type: 'CLEAR_TASKS',
+      data: null
+    })
+  })
+  form.redirect('/worker/dashboard')
+  // post('/tasks', {task: data}).then(resp => console.log(resp))
+}
+
+export function add_timesheet() {
+  let state = store.getState()
+  let data = state.forms.new_timesheet
+  if(data.date !== "") { 
+   post('/timesheets', {timesheet: data}).then(resp => {
+     store.dispatch({
+       type: 'CHANGE_NEW_TIMESHEET',
+       data: {
+         id: resp.data.id
+       }
+     })
+   })
+  } else {
+    store.dispatch({
+      type: 'CHANGE_NEW_TIMESHEET',
+      data: {errors: ["Date cannot be empty"]}
+    })
+  }
+}
+
+export function get_timesheets(worker_id) {
+  get('/workers/' + worker_id).then(resp => {
+    if(resp.data) {
+      store.dispatch({
+        type: 'GET_TIMESHEETS',
+        data: resp.data.timesheets
+      })
+    }
+  })
+}
+
+export function get_timesheet(timesheet_id) {
+  get('/timesheets/' + timesheet_id).then(resp => {
+    store.dispatch({
+      type: 'SHOW_TIMESHEET',
+      data: resp.data
     })
   })
 }
