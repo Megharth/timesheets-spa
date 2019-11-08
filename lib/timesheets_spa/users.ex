@@ -133,6 +133,10 @@ defmodule TimesheetsSpa.Users do
   """
   def get_worker!(id) do
     Repo.get!(Worker, id)
+  end
+
+  def get_worker_with_timesheets(id) do
+    Repo.get!(Worker, id)
     |> Repo.preload([:timesheets])
   end
 

@@ -18,7 +18,7 @@ const workerList = connect(({ workers }) => ({ workers }))(({ workers }) => {
                 <td>{worker.name}</td>
                 <td>{worker.email}</td>
                 <td>${worker.pay}/hr</td>
-                <td>Show Timesheets</td>
+                <td><NavLink to={"/show_worker/" + worker.id } >Show Worker</NavLink></td>
                 <td><button className="btn btn-danger" onClick={() => delete_worker(worker.id)}>Delete</button></td>
             </tr>
         )

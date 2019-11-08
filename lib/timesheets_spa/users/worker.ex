@@ -5,6 +5,7 @@ defmodule TimesheetsSpa.Users.Worker do
   schema "workers" do
     field :email, :string
     field :name, :string
+    field :password, :string, virtual: true
     field :password_hash, :string
     field :pay, :float
 
@@ -16,13 +17,17 @@ defmodule TimesheetsSpa.Users.Worker do
   @doc false
   def changeset(worker, attrs) do
     worker
-    |> cast(attrs, [:email, :name, :pay, :password_hash, :manager_id])
-    |> validate_required([:email, :name, :pay, :password_hash, :manager_id])
+    |> cast(attrs, [:email, :name, :pay, :password, :manager_id])
     |> hash_password()
+    |> validate_required([:email, :name, :pay, :password_hash, :manager_id])
   end
 
   def hash_password(cset) do
-    pw = get_change(cset, :password_hash)
-    Map.put(cset, :password_hash, Argon2.add_hash(pw).password_hash)
+    pw = get_change(cset, :password)
+    if pw do
+      change(cset, Argon2.add_hash(pw))
+    else
+      cset
+    end
   end
 end

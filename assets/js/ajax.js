@@ -46,15 +46,29 @@ export function get(path) {
     }).then(resp => resp.json())
 }
 
-export function getManager(id) {
-    get('/managers/' + id).then(resp => console.log(resp))
+export function update(path, body) {
+  let state = store.getState()
+  let session = state.session
+  return fetch('/ajax' + path, {
+      method: 'put',
+      credentials: 'same-origin',
+      headers: new Headers({
+        'x-csrf-token': window.csrf_token,
+        'content-type': "application/json; charset=UTF-8",
+        'accept': 'application/json',
+        'x-auth': session ? session.token : "",
+      }),
+      body: JSON.stringify(body),
+  }).then(resp => resp.json())
 }
+
 
 export function submit_login(form) {
   let state = store.getState()
   let data = state.forms.login
   post('/sessions', data).then(resp => {
     if(resp.token) {
+      console.log(resp)
       localStorage.setItem('session', JSON.stringify(resp))
       store.dispatch({
         type: 'LOG_IN',
@@ -111,10 +125,10 @@ export function add_worker(form) {
   let state = store.getState()
   let data = state.forms.new_worker
   post('/workers', {worker: data}).then(resp => {
-    if(resp.data) {
+    if(resp) {
       store.dispatch({
         type: 'NEW_WORKER',
-        data: resp.data
+        data: resp
       })
       form.redirect('/manager/dashboard')
     } else {
@@ -138,7 +152,6 @@ export function delete_worker(id) {
 export function add_tasks(form) {
   let state = store.getState()
   let data = state.tasks
-  console.log(data)
   let tasks = Array.from(data, ([key, task]) => {
     return task
   })
@@ -174,12 +187,22 @@ export function add_timesheet() {
   let data = state.forms.new_timesheet
   if(data.date !== "") { 
    post('/timesheets', {timesheet: data}).then(resp => {
-     store.dispatch({
-       type: 'CHANGE_NEW_TIMESHEET',
-       data: {
-         id: resp.data.id
-       }
-     })
+     if(resp.errors) {
+        store.dispatch({
+          type: 'CHANGE_NEW_TIMESHEET',
+          data: {
+            errors: resp.errors
+          }
+        })
+     } else {
+        store.dispatch({
+          type: 'CHANGE_NEW_TIMESHEET',
+          data: {
+            id: resp.data.id
+          }
+        })
+     }
+     
    })
   } else {
     store.dispatch({

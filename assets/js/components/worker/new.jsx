@@ -35,7 +35,7 @@ class NewWorker extends React.Component {
         if(this.state.redirect)
             return <Redirect to={this.state.redirect} />
 
-        let {name, email, pay, password_hash, errors} = this.props
+        let {name, email, pay, password, errors} = this.props
         let error_msg = null
         if(errors) {
             error_msg = <Alert variant="danger">{ errors }</Alert>
@@ -57,10 +57,10 @@ class NewWorker extends React.Component {
                         onChange={(ev) => {this.changed({email: ev.target.value})}}
                     />
                 </Form.Group>
-                <Form.Group controlId="password_hash">
+                <Form.Group controlId="password">
                      <Form.Label>Password</Form.Label>
                     <Form.Control type="password"
-                        onChange={(ev) => {this.changed({password_hash: ev.target.value})}}
+                        onChange={(ev) => {this.changed({password: ev.target.value})}}
                     />
                 </Form.Group>
                 <Form.Group controlId="pay">

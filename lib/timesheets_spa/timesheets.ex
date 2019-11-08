@@ -40,6 +40,13 @@ defmodule TimesheetsSpa.Timesheets do
     |> Repo.preload([:tasks])
   end
 
+  def get_by_date(date, id) do
+    IO.inspect date
+    IO.inspect id
+    Repo.all from s in Timesheet,
+      where: s.date == ^date and s.worker_id == ^id
+  end
+
   @doc """
   Creates a timesheet.
 

@@ -21,7 +21,7 @@ defmodule TimesheetsSpaWeb.WorkerController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", Routes.worker_path(conn, :show, worker))
-        |> render("show.json", worker: Map.put(worker, :manager, manager))
+        |> render("worker_manager.json", worker: Map.put(worker, :manager, manager))
       end
     else
       resp = %{errors: "User with same email already exists"}
@@ -32,7 +32,7 @@ defmodule TimesheetsSpaWeb.WorkerController do
   end
 
   def show(conn, %{"id" => id}) do
-    worker = Users.get_worker!(id)
+    worker = Users.get_worker_with_timesheets(id)
     render(conn, "show.json", worker: worker)
   end
 

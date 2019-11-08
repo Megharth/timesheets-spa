@@ -15,7 +15,7 @@ defmodule TimesheetsSpaWeb.ManagerView do
     %{id: manager.id,
       email: manager.email,
       name: manager.name,
-      workers: render_many(manager.workers, WorkerView, "worker.json")
+      workers: render_many(manager.workers, WorkerView, "worker_manager.json")
     }
   end
 

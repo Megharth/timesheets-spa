@@ -1,14 +1,15 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
-import { get } from '../../ajax'
+import { get, update } from '../../ajax'
 import { Container } from 'react-bootstrap'
-
+import store from '../../store'
 export default class ShowTimesheet extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            timesheet: null
+            timesheet: null,
+            user: store.getState().session.user_type
         }
         this.getTimesheet = this.getTimesheet.bind(this)
         this.getTimesheet(this.props.match.params.id)
@@ -17,6 +18,7 @@ export default class ShowTimesheet extends React.Component {
     getTimesheet(id) {
        get('/timesheets/' + id).then(resp => {
             this.setState({timesheet: resp})
+            console.log(this.state)
         })
     }
 
@@ -32,13 +34,35 @@ export default class ShowTimesheet extends React.Component {
         })
     }   
 
+    approve() {
+        let timesheet = this.state.timesheet
+        timesheet.approved = true
+        this.setState({timesheet})
+        let updatedTimesheet = {
+                id: timesheet.id, 
+                timesheet: timesheet
+            }
+        update('/timesheets/' + timesheet.id, updatedTimesheet).then(resp => console.log(resp))
+    }
+
     render() {
         if(this.state.timesheet) {
             return(
                 <Container>
                     <h1>Timesheet</h1>
                     <h6>Date: {this.state.timesheet.date}</h6>
-                    <h6>Status: {this.state.timesheet.approved == true ? "Approved" : "Not Approved"}</h6>
+                    <div className="row">
+                        <div className="col">
+                            <h6>Status: {this.state.timesheet.approved == true ? "Approved" : "Not Approved"}</h6>
+                        </div>
+                        {this.state.user == "manager" && this.state.timesheet.approved == false ? 
+                            <div className="col">
+                                <button className="btn btn-success ml-auto d-block" 
+                                    onClick={() => this.approve()}>Approve</button>
+                            </div> : 
+                            null
+                        }
+                    </div>
                     <table className="table">
                         <thead>
                             <tr>

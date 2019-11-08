@@ -32,7 +32,7 @@ function new_job(st0 = {job_code: "", name: "", budget: 0, description: "", erro
     }
 }
 
-function new_worker(st0 = {name: "", email: "", pay: "", password_hash: "", manager_id: null, errors: null}, action) {
+function new_worker(st0 = {name: "", email: "", pay: "", password: "", manager_id: null, errors: null}, action) {
     switch(action.type) {
         case 'CHANGE_NEW_WORKER':
             return Object.assign({}, st0, action.data)

@@ -51,9 +51,7 @@ let Session = connect(({ session }) => ({ session }))(({ session, dispatch }) =>
     } else {
         return (
             <Nav className="ml-auto">
-                <Nav.Item>
-                    <NavLink to="/signup" activeClassName="active" exact className="nav-link">Signup</NavLink>
-                </Nav.Item>
+
             </Nav>
         )
     }

@@ -5,7 +5,6 @@ import { Provider, connect } from 'react-redux';
 
 //Components and function
 import Navigation from './components/navbar'
-import {getManager} from './ajax'
 import Login from './components/login'
 import PrivateRoute from './privateRoute'
 import ManagerDashboard from './components/manager/dashboard'
@@ -15,6 +14,7 @@ import NewJob from './components/jobs/new'
 
 import NewWorker from './components/worker/new'
 import WorkerDashboard from './components/worker/dashboard'
+import ShowWorker from './components/worker/show'
 
 import NewTimesheet from './components/timesheet/new'
 import ShowTimesheet from './components/timesheet/show'
@@ -36,9 +36,6 @@ function Index(props) {
             <Switch>
                 <Route exact path="/" component={Login}>
                 </Route>
-                <Route exact path="/signup">
-                    Singup
-                </Route>
                 <PrivateRoute path="/manager/dashboard">
                     <ManagerDashboard />
                 </PrivateRoute>
@@ -57,8 +54,10 @@ function Index(props) {
                 <PrivateRoute path="/new_timesheet">
                     <NewTimesheet />
                 </PrivateRoute>
-                <Route path="/show_timesheet/:id" component={ShowTimesheet}>
-                </Route>
+                <PrivateRoute path="/show_timesheet/:id" component={ShowTimesheet}>
+                </PrivateRoute>
+                <PrivateRoute path="/show_worker/:id" component={ShowWorker}>
+                </PrivateRoute>
             </Switch>
         </Router>
     )

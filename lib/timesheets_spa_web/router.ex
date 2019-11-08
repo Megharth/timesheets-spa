@@ -23,7 +23,7 @@ defmodule TimesheetsSpaWeb.Router do
     resources "/workers", WorkerController, only: [:create, :show, :delete]
     resources "/jobs", JobController, only: [:create, :show, :index]
     resources "/sessions", SessionController, only: [:create], singleton: true
-    resources "/timesheets", TimesheetController, only: [:create, :show]
+    resources "/timesheets", TimesheetController, only: [:create, :show, :update]
     resources "/tasks", TaskController, only: [:create, :show, :delete]
 
   end

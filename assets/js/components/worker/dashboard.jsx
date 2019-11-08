@@ -11,7 +11,7 @@ const timesheets_list = connect(({ timesheets }) => ({ timesheets }))(({ timeshe
         get_timesheets(store.getState().session.user_id)
     }
 
-    let renderWorkers = Array.from(timesheets, ([key, timesheet]) => {
+    let renderTimesheets = Array.from(timesheets, ([key, timesheet]) => {
         return (
             <tr key={key}>
                 <td>{timesheet.date}</td>
@@ -37,7 +37,7 @@ const timesheets_list = connect(({ timesheets }) => ({ timesheets }))(({ timeshe
                     </tr>
                 </thead>
                 <tbody>
-                    {renderWorkers}
+                    {renderTimesheets}
                 </tbody>
             </table>
         </div>

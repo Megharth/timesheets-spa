@@ -12,11 +12,19 @@ defmodule TimesheetsSpaWeb.TimesheetController do
   end
 
   def create(conn, %{"timesheet" => timesheet_params}) do
-    with {:ok, %Timesheet{} = timesheet} <- Timesheets.create_timesheet(timesheet_params) do
+    record = Timesheets.get_by_date(timesheet_params["date"], timesheet_params["worker_id"])
+    if length(record) >= 1 do
+      resp = %{errors: ["Timesheet Already Exists for the given date."]}
       conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.timesheet_path(conn, :show, timesheet))
-      |> render("show.json", timesheet: timesheet)
+      |> put_resp_header("content-type", "application/json; charset=UTF-8")
+      |> send_resp(:unauthorized, Jason.encode!(resp))
+    else
+      with {:ok, %Timesheet{} = timesheet} <- Timesheets.create_timesheet(timesheet_params) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.timesheet_path(conn, :show, timesheet))
+        |> render("show.json", timesheet: timesheet)
+      end
     end
   end
 
