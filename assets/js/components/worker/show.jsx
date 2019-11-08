@@ -12,7 +12,7 @@ export default class ShowUser extends React.Component {
             user: null
         }
         this.getUser = this.getUser.bind(this)
-        this.getUser(this.props.match.params.id)
+        this.getUser(this.props.computedMatch.params.id)
     }
 
     getUser(id) {

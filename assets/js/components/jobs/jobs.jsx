@@ -22,8 +22,12 @@ const jobList = connect(({ jobs }) => ({ jobs }))(({ jobs }) => {
     })
     return (
         <div className="container">
-            <h1>Existing Jobs</h1>
-            <NavLink className="btn btn-primary ml-auto d-block add-btn" to="/new_job">+ New Job</NavLink>
+            <h1>Jobs</h1>
+            {
+                store.getState().session.user_type == "manager" ?
+                <NavLink className="btn btn-primary ml-auto d-block add-btn" to="/new_job">+ New Job</NavLink> :
+                null
+            }
             <table className="table">
                 <thead>
                     <tr>

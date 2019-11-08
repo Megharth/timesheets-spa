@@ -12,13 +12,12 @@ export default class ShowTimesheet extends React.Component {
             user: store.getState().session.user_type
         }
         this.getTimesheet = this.getTimesheet.bind(this)
-        this.getTimesheet(this.props.match.params.id)
+        this.getTimesheet(this.props.computedMatch.params.id)
     }
 
     getTimesheet(id) {
        get('/timesheets/' + id).then(resp => {
             this.setState({timesheet: resp})
-            console.log(this.state)
         })
     }
 
@@ -42,7 +41,7 @@ export default class ShowTimesheet extends React.Component {
                 id: timesheet.id, 
                 timesheet: timesheet
             }
-        update('/timesheets/' + timesheet.id, updatedTimesheet).then(resp => console.log(resp))
+        update('/timesheets/' + timesheet.id, updatedTimesheet)
     }
 
     render() {
@@ -57,7 +56,7 @@ export default class ShowTimesheet extends React.Component {
                         </div>
                         {this.state.user == "manager" && this.state.timesheet.approved == false ? 
                             <div className="col">
-                                <button className="btn btn-success ml-auto d-block" 
+                                <button className="btn btn-success ml-auto d-block add-btn" 
                                     onClick={() => this.approve()}>Approve</button>
                             </div> : 
                             null

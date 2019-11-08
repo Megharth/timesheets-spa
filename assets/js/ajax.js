@@ -68,7 +68,6 @@ export function submit_login(form) {
   let data = state.forms.login
   post('/sessions', data).then(resp => {
     if(resp.token) {
-      console.log(resp)
       localStorage.setItem('session', JSON.stringify(resp))
       store.dispatch({
         type: 'LOG_IN',

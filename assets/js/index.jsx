@@ -6,7 +6,11 @@ import { Provider, connect } from 'react-redux';
 //Components and function
 import Navigation from './components/navbar'
 import Login from './components/login'
+
+import ManagerRoutes from './managerRoutes'
 import PrivateRoute from './privateRoute'
+import WorkerRoutes from './workerRoutes'
+
 import ManagerDashboard from './components/manager/dashboard'
 
 import JobsDashboard from './components/jobs/jobs'
@@ -34,30 +38,15 @@ function Index(props) {
         <Router>
             <Navigation/>
             <Switch>
-                <Route exact path="/" component={Login}>
-                </Route>
-                <PrivateRoute path="/manager/dashboard">
-                    <ManagerDashboard />
-                </PrivateRoute>
-                <PrivateRoute path="/worker/dashboard">
-                    <WorkerDashboard />
-                </PrivateRoute>
-                <PrivateRoute path="/jobs/">
-                    <JobsDashboard />
-                </PrivateRoute>
-                <PrivateRoute path="/new_job">
-                    <NewJob />
-                </PrivateRoute>
-                <PrivateRoute path="/new_worker">
-                    <NewWorker />
-                </PrivateRoute>
-                <PrivateRoute path="/new_timesheet">
-                    <NewTimesheet />
-                </PrivateRoute>
-                <PrivateRoute path="/show_timesheet/:id" component={ShowTimesheet}>
-                </PrivateRoute>
-                <PrivateRoute path="/show_worker/:id" component={ShowWorker}>
-                </PrivateRoute>
+                <Route exact path="/" component={Login}></Route>
+                <ManagerRoutes path="/manager/dashboard" component={ManagerDashboard}></ManagerRoutes>
+                <WorkerRoutes path="/worker/dashboard" component={WorkerDashboard}></WorkerRoutes>
+                <PrivateRoute path="/jobs/" component={JobsDashboard}></PrivateRoute>
+                <ManagerRoutes path="/new_job" component={NewJob}></ManagerRoutes>
+                <ManagerRoutes path="/new_worker" component={NewWorker}></ManagerRoutes>
+                <WorkerRoutes path="/new_timesheet" component={NewTimesheet}></WorkerRoutes>
+                <PrivateRoute path="/show_timesheet/:id" component={ShowTimesheet}></PrivateRoute>
+                <ManagerRoutes path="/show_worker/:id" component={ShowWorker}></ManagerRoutes>
             </Switch>
         </Router>
     )
