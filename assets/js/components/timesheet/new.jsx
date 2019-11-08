@@ -11,6 +11,7 @@ class NewTimesheet extends React.Component {
     constructor(props) {
         super(props)
         this.addNewTask = this.addNewTask.bind(this)
+        this.channel = props.channel
         this.state = {
             redirect: null,
         }
@@ -82,7 +83,7 @@ class NewTimesheet extends React.Component {
                         </tbody>
                     </table>
 
-                    <Button variant="primary" onClick={() => {add_tasks(this)}}>Save</Button>
+                    <Button variant="primary" onClick={() => {add_tasks(this, this.channel)}}>Save</Button>
                 </Container>
             )
         }

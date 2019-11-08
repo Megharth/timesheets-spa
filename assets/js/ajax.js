@@ -148,12 +148,16 @@ export function delete_worker(id) {
   })
 }
 
-export function add_tasks(form) {
+export function add_tasks(form, channel) {
   let state = store.getState()
   let data = state.tasks
   let tasks = Array.from(data, ([key, task]) => {
     return task
   })
+  let hours = tasks.reduce((acc, task) => acc + parseInt(task.hours), 0)
+  if(hours < 8) 
+    channel.push("notify_manager", {name: state.session.user_name, hours})
+  
   let add_task
   tasks.forEach((task) => {
     add_task = post('/tasks', {task})

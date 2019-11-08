@@ -13,7 +13,7 @@ https://github.com/Megharth/timesheets-spa
 
 
 3. What's the version number of your github release?
-16
+20
 
 
 4. What's the URL that you deployed to?
@@ -21,7 +21,7 @@ time2.megharth.site
 
 
 5. Is your app functionality complete? If not, what's missing?
-All the functionalities except channel notification is completed.
+All the functionalities are complete.
 
 
 6. Is your app properly deployed? If not, what went wrong?

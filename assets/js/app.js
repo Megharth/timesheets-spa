@@ -12,10 +12,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //
 import "phoenix_html"
 import init from './index'
+import socket from './socket'
 
 window.addEventListener("load", () => {
+    let channel = socket.channel("timesheet:timesheet")
     let root = document.getElementById("root")
-    init(root)
+    init(root, channel)
 })
 
 // Import local files
