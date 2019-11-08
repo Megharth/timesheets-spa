@@ -31,7 +31,6 @@ This is a prototype version of timesheets Single Page App which is a part of ass
 * Manager has authority to create a worker. By creating a worker, that manager is assigned to the worker and manager will be able to see the timesheets of that worker.
 * Manager has authority to create a job. When manager creates a job, that manager will be responsible for that job.
 * The manager can delete a worker in order to revoke their access to the timesheet system.
-
 	### Manager Schema
 	```
 	email: string
@@ -42,6 +41,20 @@ This is a prototype version of timesheets Single Page App which is a part of ass
 	```
 	* Manager has `has_many` association with `workers` because a manager manages many workers but a worker reports to only one manager.
 	* Manager has `has_many` association with `jobs` because a manager manages many jobs.
+
+### Job
+* There are only two modules for jobs: list jobs and create job.
+* Only manager can create the job.
+* Both worker and manager can view the job as it will provide information about new jobs.
+	#### Job Schema
+	```
+	budget: float
+	description: string
+	job_code: string
+	name: string
+	belongs_to: manager
+	```
+	*Job has `belongs_to` association with `manager` that ensures that the job is coorectly assigned to a manager.
 
 ### Timesheets
 * Each worker will be able to create exactly one timesheet per day.
